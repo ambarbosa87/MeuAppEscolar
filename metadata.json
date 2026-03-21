@@ -1,0 +1,5 @@
+{
+  "name": "Calculadora de Classe Escolar",
+  "description": "Web App para identificar a classe escolar de uma criança com base na data de nascimento e data de corte (31/03).",
+  "requestFramePermissions": []
+}
