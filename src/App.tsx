@@ -13,12 +13,14 @@ type SchoolClass =
   | "Muito velho(a)";
 
 export default function App() {
-  const [birthDateStr, setBirthDateStr] = useState<string>('01/01/2022');
+  const [birthDateStr, setBirthDateStr] = useState<string>('');
   const [refYear, setRefYear] = useState<number>(2026);
   const [result, setResult] = useState<SchoolClass | null>(null);
   const [ageOnCutoff, setAgeOnCutoff] = useState<number | null>(null);
 
   const calculateClass = () => {
+    if (!birthDateStr) return;
+
     const parts = birthDateStr.split('/');
     if (parts.length !== 3) {
       setResult(null);
@@ -53,6 +55,7 @@ export default function App() {
     
     if (birth >= maternalStart && birth <= maternalEnd) {
       setResult("Maternal (Parcial)");
+      setBirthDateStr('');
       return;
     }
 
@@ -71,6 +74,7 @@ export default function App() {
     } else {
       setResult("Muito velho(a)");
     }
+    setBirthDateStr('');
   };
 
   const formatDate = (d: Date) => {

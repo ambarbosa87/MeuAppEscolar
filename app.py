@@ -52,20 +52,24 @@ def main():
     with col1:
         ref_year = st.number_input("Ano de Referência", min_value=2000, max_value=2100, value=2026)
     with col2:
+        # value=None deixa o campo vazio inicialmente
         birth_date = st.date_input(
             "Data de Nascimento da Criança", 
-            value=date(ref_year - 4, 1, 1),
+            value=None,
             min_value=date(ref_year - 15, 1, 1),
             max_value=date(ref_year, 12, 31),
             format="DD/MM/YYYY",
-            help="Você pode digitar a data no formato DD/MM/AAAA ou usar o calendário."
+            help="Digite a data no formato DD/MM/AAAA."
         )
     
     if st.button("Verificar Classe", use_container_width=True):
-        result = calculate_class(birth_date, ref_year)
-        st.session_state['result'] = result
-        st.session_state['age_on_cutoff'] = date(ref_year, 3, 31).year - birth_date.year - ((3, 31) < (birth_date.month, birth_date.day))
-        st.session_state['ref_year_used'] = ref_year
+        if birth_date is None:
+            st.error("Por favor, insira uma data de nascimento válida.")
+        else:
+            result = calculate_class(birth_date, ref_year)
+            st.session_state['result'] = result
+            st.session_state['age_on_cutoff'] = date(ref_year, 3, 31).year - birth_date.year - ((3, 31) < (birth_date.month, birth_date.day))
+            st.session_state['ref_year_used'] = ref_year
 
     # 3. Região do Resultado logo abaixo do botão
     if 'result' in st.session_state:
